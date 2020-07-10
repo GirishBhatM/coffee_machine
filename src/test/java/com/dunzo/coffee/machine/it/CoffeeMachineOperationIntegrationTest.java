@@ -19,10 +19,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author girishbhat.m7@gmail.com
  *
  */
-public class CoffeeMachineOperationIT {
+public class CoffeeMachineOperationIntegrationTest {
 
 	@Test
-	public void testWithAtMost2BeveragePossible() throws Exception {
+	public void testWith2BeveragePossible() throws Exception {
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		String filePath = Paths.get("").toAbsolutePath() + "/src/test/resources/testinput_at_most_2.json";

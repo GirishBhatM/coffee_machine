@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import com.dunzo.coffee.machine.model.DisplayMessage;
 import com.dunzo.coffee.machine.model.ItemQuantity;
@@ -20,15 +19,15 @@ import lombok.NonNull;
  */
 public class CofeeMachineInventoryService implements InventoryService {
 
-	private static final Map<String, Integer> INVENTORY = new ConcurrentHashMap<>();
+	private  Map<String, Integer> inventory = new HashMap<>();
 
 	private Object lock = new Object();
 
 	@Override
 	public void refill(List<ItemQuantity> itemQuantities) {
 		synchronized (lock) {
-			itemQuantities.forEach(item -> INVENTORY.put(item.getItemName(),
-					INVENTORY.getOrDefault(item.getItemName(), 0) + item.getQuantity()));
+			itemQuantities.forEach(item -> inventory.put(item.getItemName(),
+					inventory.getOrDefault(item.getItemName(), 0) + item.getQuantity()));
 		}
 	}
 
@@ -52,16 +51,16 @@ public class CofeeMachineInventoryService implements InventoryService {
 	}
 
 	private boolean isAvaialble(String itemName, int quantity) {
-		return INVENTORY.getOrDefault(itemName, 0) - quantity >= 0;
+		return inventory.getOrDefault(itemName, 0) - quantity >= 0;
 	}
 
-	private void updateInventory(Map<String, Integer> inventory) {
-		inventory.entrySet().forEach(e -> INVENTORY.put(e.getKey(), INVENTORY.get(e.getKey()) - e.getValue()));
+	private void updateInventory(Map<String, Integer> update) {
+		update.entrySet().forEach(e -> inventory.put(e.getKey(), inventory.get(e.getKey()) - e.getValue()));
 	}
 
 	@Override
 	public boolean isRunningLow(String itemName, int threshHold) {
-		return INVENTORY.getOrDefault(itemName, 0) < threshHold;
+		return inventory.getOrDefault(itemName, 0) < threshHold;
 	}
 
 }

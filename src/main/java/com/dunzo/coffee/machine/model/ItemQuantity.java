@@ -2,6 +2,7 @@ package com.dunzo.coffee.machine.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
 /**
  * Request mapping POJO
@@ -11,6 +12,7 @@ import lombok.Getter;
  */
 @AllArgsConstructor
 @Getter
+@ToString
 public class ItemQuantity {
 
 	private final String itemName;
